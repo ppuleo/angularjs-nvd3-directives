@@ -1,4 +1,4 @@
-/*! angularjs-nvd3-directives - v0.0.7 - 2014-06-26
+/*! angularjs-nvd3-directives - v0.0.7 - 2014-10-10
  * http://cmaurer.github.io/angularjs-nvd3-directives
  * Copyright (c) 2014 Christian Maurer; Licensed Apache License, v2.0 */
 ( function () {
@@ -748,14 +748,17 @@
   }
 
   function initializeMargin( scope, attrs ) {
-    var margin = scope.$eval( attrs.margin ) || {
+    // Defaults
+    var defaults = {
       left: 50,
       top: 50,
       bottom: 50,
       right: 50
     };
+    // Is the margin attribute an object literal or a model?
+    var margin = scope.$eval( attrs.margin ) || scope.margin() || defaults;
+    // we were passed a vanilla int, convert to full margin object
     if ( typeof margin !== 'object' ) {
-      // we were passed a vanilla int, convert to full margin object
       margin = {
         left: margin,
         top: margin,

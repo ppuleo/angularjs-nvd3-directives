@@ -4,11 +4,18 @@
      */
 
     function initializeMargin(scope, attrs){
-        var margin = (scope.$eval(attrs.margin) || {left: 50, top: 50, bottom: 50, right: 50});
+
+        // Defaults
+        var defaults = {left: 50, top: 50, bottom: 50, right: 50};
+
+        // Is the margin attribute an object literal or a model?
+        var margin = scope.$eval(attrs.margin) || scope.margin() || defaults;
+
+        // we were passed a vanilla int, convert to full margin object
         if (typeof(margin) !== 'object') {
-            // we were passed a vanilla int, convert to full margin object
             margin = {left: margin, top: margin, bottom: margin, right: margin};
         }
+
         scope.margin = margin;
     }
 
@@ -2290,7 +2297,7 @@
                         if (data && angular.isDefined(scope.filtername) && angular.isDefined(scope.filtervalue)) {
                             data =  $filter(scope.filtername)(data, scope.filtervalue);
                         }
-                        
+
                         if(data){
                             //if the chart exists on the scope, do not call addGraph again, update data and call the chart.
                             if(scope.chart){
